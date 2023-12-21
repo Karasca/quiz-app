@@ -35,4 +35,5 @@ export class GameModel {
   player2Score: number = 0;
   moderator: PlayerModel;
   status: GameStatus = GameStatus.WaitingForPlayers;
+  roomId: string;
 }

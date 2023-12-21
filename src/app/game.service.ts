@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ModeratorModel } from './models/moderator/moderator.model';
 import { GameModel, GameStatus } from './game/game.model';
 import { PlayerModel } from './models/player/player.model';
-import { RoomModel } from './models/room/room.model';
 
 export enum GameView{
   Lobby,
@@ -17,14 +15,6 @@ export class GameService {
   view = GameView.Lobby;
   game = new GameModel;
 
-  // constructor(moderator: ModeratorModel) { 
-  //   this.game.moderator = moderator.player;
-  //   this.game.player1Score = 0;
-  //   this.game.player2Score = 0;
-  //   this.game.timer = 60;
-  //   this.game.status = GameStatus.WaitingForPlayers;
-  //   this.game.questions = [];
-  // }
   constructor(){
 
   }
@@ -59,5 +49,6 @@ export class GameService {
     this.game.status = data.status;
     this.game.timer = data.timer;
     this.game.title = data.title;
+    this.game.roomId = data.roomId;
   }
 }

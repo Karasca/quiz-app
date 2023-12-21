@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { io } from 'socket.io-client';
-import { RoomModel } from './models/room/room.model';
 import { GameService, GameView } from './game.service';
-import { GameModel, GameStatus } from './game/game.model';
+import { GameModel } from './game/game.model';
 
 
 @Injectable({
@@ -11,7 +10,7 @@ import { GameModel, GameStatus } from './game/game.model';
 })
 export class SocketioService {
   socket: any;
-  rooms$ = new BehaviorSubject<RoomModel[]>([]);
+  rooms$ = new BehaviorSubject<GameModel[]>([]);
   game: GameService;
 
   constructor() { }
@@ -21,16 +20,21 @@ export class SocketioService {
     this.socket = io("http://localhost:3000");
 
     // listening to events
-    this.socket.on('roomList', (data: RoomModel[]) => {
+    this.socket.on('roomList', (data: GameModel[]) => {
       this.rooms$.next(data)
-      console.log(data);
+      console.log('roomlist: ', data);
     })
 
     // nav to joined room
     this.socket.on('navToGameView', (data: GameModel) => {
       this.game.view = GameView.Game;
+      console.log("navToGameView: ", data);
       this.game.setGame(data);
-      console.log(data);
+    })
+
+    // game is full
+    this.socket.on('gamefull', () => {
+      console.log("game full.");
     })
   }
 
@@ -48,12 +52,13 @@ export class SocketioService {
   }
 
   joinRoom(id:string){
+    console.log('joining room: ', id);
     this.socket.emit('joinRoom', id);
     // join game after receiving ok from server
     // gameService.joinGame(this.socket.id)
   }
 
-  getRooms():Observable<RoomModel[]>{
+  getRooms():Observable<GameModel[]>{
     return this.rooms$;
   }
 

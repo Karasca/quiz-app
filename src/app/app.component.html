@@ -188,16 +188,16 @@
         <button (click)="createRoom($event)">Create Room</button>
         <div>
           <div class="roomItem" *ngFor="let room of roomsList$ | async">
-            <span id="roomId">{{room.id}}</span>
-            <span id="roomOwner">{{room.moderator.player.name}}</span>
+            <span id="roomId">{{room.roomId}}</span>
+            <span id="roomOwner">{{room.moderator.name}}</span>
             <span id="playersCount">0/0</span>
-            <button (click)="joinRoom(room.id)">Join</button>
+            <button (click)="joinRoom(room.roomId)">Join</button>
           </div>
         </div>
       </div>
       
       <div *ngIf="getGameService().view === 1">
-        <div>game view</div>
+        <div>{{getGameService().game.roomId}}</div>
       </div>
       
     </div>

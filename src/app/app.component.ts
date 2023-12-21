@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SocketioService } from './socketio.service';
 import { BehaviorSubject } from 'rxjs';
-import { RoomModel } from './models/room/room.model';
 import { GameService } from './game.service';
+import { GameModel } from './game/game.model';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ import { GameService } from './game.service';
 })
 export class AppComponent implements OnInit {
   title = 'quiz-app';
-  roomsList$ = new BehaviorSubject<RoomModel[]>([]);
+  roomsList$ = new BehaviorSubject<GameModel[]>([]);
 
   constructor(private socketService: SocketioService, private gameService: GameService) {
 
