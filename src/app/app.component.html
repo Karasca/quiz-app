@@ -183,16 +183,23 @@
 <main class="main">
   <div class="content">
     <div class="left-side">
-      <h1>Touhou Quiz</h1>
-      <button (click)="createRoom($event)">Create Room</button>
-      <div>
-        <div class="roomItem" *ngFor="let room of roomsList$ | async">
-          <span id="roomId">{{room.id}}</span>
-          <span id="roomOwner">{{room.moderator.player.name}}</span>
-          <span id="playersCount">0/0</span>
-          <button (click)="joinRoom(room.id)">Join</button>
+      <h1>Lobby</h1>
+      <div *ngIf="getGameService().view === 0">
+        <button (click)="createRoom($event)">Create Room</button>
+        <div>
+          <div class="roomItem" *ngFor="let room of roomsList$ | async">
+            <span id="roomId">{{room.id}}</span>
+            <span id="roomOwner">{{room.moderator.player.name}}</span>
+            <span id="playersCount">0/0</span>
+            <button (click)="joinRoom(room.id)">Join</button>
+          </div>
         </div>
       </div>
+      
+      <div *ngIf="getGameService().view === 1">
+        <div>game view</div>
+      </div>
+      
     </div>
   </div>
 </main>
