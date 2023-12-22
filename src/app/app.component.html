@@ -189,7 +189,7 @@
         <div>
           <div class="roomItem" *ngFor="let room of roomsList$ | async">
             <span id="roomId">{{room.roomId}}</span>
-            <span id="roomOwner">{{room.moderator.name}}</span>
+            <span *ngIf="room.moderator" id="roomOwner">{{room.moderator.name}}</span>
             <span id="playersCount">0/0</span>
             <button (click)="joinRoom(room.roomId)">Join</button>
           </div>
@@ -197,7 +197,10 @@
       </div>
       
       <div *ngIf="getGameService().view === 1">
-        <div>{{getGameService().game.roomId}}</div>
+        <div>{{getGameService().game.roomId}} <span>{{printStatus()}}</span></div>
+        <div *ngIf="getGameService().game.moderator">Moderator: {{getGameService().game.moderator.name || 'None'}}</div>
+        <div *ngIf="getGameService().game.player1">Player 1: {{getGameService().game.player1.name || 'None'}}</div>
+        <div *ngIf="getGameService().game.player2">Player 2: {{getGameService().game.player2.name || 'None'}}</div>
       </div>
       
     </div>

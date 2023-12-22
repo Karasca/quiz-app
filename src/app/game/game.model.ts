@@ -37,3 +37,5 @@ export class GameModel {
   status: GameStatus = GameStatus.WaitingForPlayers;
   roomId: string;
 }
+
+

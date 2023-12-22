@@ -48,4 +48,20 @@ export class AppComponent implements OnInit {
   getGameService(){
     return this.gameService;
   }
+
+  printStatus(){
+    switch (this.gameService.game.status) {
+      case 0:
+        return "Waiting for Players";
+      case 1:
+        return "Waiting for Question";
+      case 2:
+        return "Waiting for Answers";
+      case 3:
+        return "Waiting for ";
+      default:
+        return "No Status";
+        
+    }
+  }
 }

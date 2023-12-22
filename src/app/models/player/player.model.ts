@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './player.model.scss'
 })
 export class PlayerModel {
-  id!: string;
-  name!: string;
+  id: string;
+  name: string;
 }

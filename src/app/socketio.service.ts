@@ -11,7 +11,7 @@ import { GameModel } from './game/game.model';
 export class SocketioService {
   socket: any;
   rooms$ = new BehaviorSubject<GameModel[]>([]);
-  game: GameService;
+  gameService: GameService;
 
   constructor() { }
 
@@ -27,14 +27,22 @@ export class SocketioService {
 
     // nav to joined room
     this.socket.on('navToGameView', (data: GameModel) => {
-      this.game.view = GameView.Game;
+      this.gameService.view = GameView.Game;
       console.log("navToGameView: ", data);
-      this.game.setGame(data);
+      this.gameService.setGame(data);
     })
 
     // game is full
     this.socket.on('gamefull', () => {
       console.log("game full.");
+    })
+
+    // player Joined
+    this.socket.on('updatePlayers', (data:GameModel) => {
+      console.log("Player Update: ", data);
+      this.gameService.game.moderator = data.moderator;
+      this.gameService.game.player1 = data.player1;
+      this.gameService.game.player2 = data.player2;
     })
   }
 
@@ -63,10 +71,10 @@ export class SocketioService {
   }
 
   setGameService(gameService: GameService){
-    this.game = gameService;
+    this.gameService = gameService;
   }
 
   getGameService(){
-    return this.game;
+    return this.gameService;
   }
 }
