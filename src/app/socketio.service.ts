@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { io } from 'socket.io-client';
 import { GameService, GameView } from './game.service';
 import { GameModel } from './game/game.model';
+import { UserModel } from './user/user.model';
 
 
 @Injectable({
@@ -36,6 +37,10 @@ export class SocketioService {
     this.socket.on('gamefull', () => {
       console.log("game full.");
     })
+
+    this.socket.on('userInfo', (user: UserModel) => {
+      this.gameService.setUser(user)
+    });
 
     // player Joined
     this.socket.on('updatePlayers', (data:GameModel) => {
@@ -76,5 +81,13 @@ export class SocketioService {
 
   getGameService(){
     return this.gameService;
+  }
+
+  getSocketId(){
+    return this.socket.id;
+  }
+
+  startGame(gameId: string){
+    this.socket.emit('startGame', gameId);
   }
 }

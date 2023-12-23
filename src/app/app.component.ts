@@ -4,6 +4,7 @@ import { SocketioService } from './socketio.service';
 import { BehaviorSubject } from 'rxjs';
 import { GameService } from './game.service';
 import { GameModel } from './game/game.model';
+import { UserModel } from './user/user.model';
 
 @Component({
   selector: 'app-root',
@@ -63,5 +64,13 @@ export class AppComponent implements OnInit {
         return "No Status";
         
     }
+  }
+
+  isMod(){
+    return this.gameService.user.role == "mod"
+  }
+
+  startGame(){
+    this.socketService.startGame(this.gameService.game.roomId);
   }
 }

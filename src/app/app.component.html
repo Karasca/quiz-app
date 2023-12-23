@@ -185,6 +185,7 @@
     <div class="left-side">
       <h1>Lobby</h1>
       <div *ngIf="getGameService().view === 0">
+        <div>User: {{getGameService().user.name}}</div>
         <button (click)="createRoom($event)">Create Room</button>
         <div>
           <div class="roomItem" *ngFor="let room of roomsList$ | async">
@@ -203,6 +204,9 @@
         <div *ngIf="getGameService().game.player2">Player 2: {{getGameService().game.player2.name || 'None'}}</div>
       </div>
       
+      <div *ngIf="isMod()">
+        <button (click)="startGame()")></button>
+      </div>
     </div>
   </div>
 </main>

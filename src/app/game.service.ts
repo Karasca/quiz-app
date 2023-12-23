@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GameModel, GameStatus } from './game/game.model';
 import { PlayerModel } from './models/player/player.model';
+import { UserModel } from './user/user.model';
 
 export enum GameView{
   Lobby,
@@ -14,6 +15,7 @@ export class GameService {
   
   view = GameView.Lobby;
   game = new GameModel;
+  user = new UserModel;
 
   constructor(){
 
@@ -50,5 +52,11 @@ export class GameService {
     this.game.timer = data.timer;
     this.game.title = data.title;
     this.game.roomId = data.roomId;
+  }
+
+  setUser(user: UserModel){
+    this.user.id = user.id;
+    this.user.name = user.name;
+    this.user.role = user.role;
   }
 }
