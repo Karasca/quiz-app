@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PlayerModel } from '../models/player/player.model';
+import { QuestionModel } from '../question/question.model';
 
 /*
 **  Game Flow
@@ -27,7 +28,7 @@ export enum GameStatus {
 })
 export class GameModel {
   title: string = "";
-  questions: [] = [];
+  question : QuestionModel;
   timer: number = 60;
   player1: PlayerModel;
   player1Score: number = 0;
@@ -36,6 +37,8 @@ export class GameModel {
   moderator: PlayerModel;
   status: GameStatus = GameStatus.WaitingForPlayers;
   roomId: string;
+  p1Answer: string;
+  p2Answer: string;
 }
 
 

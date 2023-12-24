@@ -47,11 +47,13 @@ export class GameService {
     this.game.player1Score = data.player1Score;
     this.game.player2 = data.player2;
     this.game.player2Score = data.player2Score;
-    this.game.questions = data.questions;
+    this.game.question = data.question;
     this.game.status = data.status;
     this.game.timer = data.timer;
     this.game.title = data.title;
     this.game.roomId = data.roomId;
+    this.game.p1Answer = data.p1Answer;
+    this.game.p2Answer = data.p2Answer;
   }
 
   setUser(user: UserModel){

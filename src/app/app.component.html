@@ -232,9 +232,15 @@
           <!-- Waiting for Players to both answer, or time out-->
           <div *ngIf="getGameService().game.status == 2">
             <div>Players Are Answering...</div>
+            <div>Question: {{getGameService().game.question.question}}</div>
           </div>
+          <!-- Checking Answers -->
           <div *ngIf="getGameService().game.status == 3">
             <div>CHECKING ANSWERS</div>
+            <div>Question: {{getGameService().game.question.question}}</div>
+            <div>Answer: {{getGameService().game.question.answer}}</div>
+            <div>{{getGameService().game.player1.name}}: {{getGameService().game.p1Answer}}</div>
+            <div>{{getGameService().game.player2.name}}: {{getGameService().game.p2Answer}}</div>
           </div>
         </div>
 
@@ -242,6 +248,7 @@
         <div *ngIf="!isMod()">
           <div *ngIf="getGameService().game.status == 1">Waiting For Question...</div>
           <div *ngIf="getGameService().game.status == 2">
+            <div>Question: {{getGameService().game.question.question}}</div>
             <!-- answer question input. -->
             <form [formGroup]="answerForm" (ngSubmit)="onSubmitAnswerForm()">              
               <div>
