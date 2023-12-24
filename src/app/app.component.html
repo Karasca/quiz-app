@@ -198,15 +198,65 @@
       </div>
       
       <div *ngIf="getGameService().view === 1">
+        <!-- General View -->
         <div>{{getGameService().game.roomId}} <span>{{printStatus()}}</span></div>
         <div *ngIf="getGameService().game.moderator">Moderator: {{getGameService().game.moderator.name || 'None'}}</div>
         <div *ngIf="getGameService().game.player1">Player 1: {{getGameService().game.player1.name || 'None'}}</div>
         <div *ngIf="getGameService().game.player2">Player 2: {{getGameService().game.player2.name || 'None'}}</div>
+        
+        <!-- Mod View -->
+        <div *ngIf="isMod()">
+          <button *ngIf="getGameService().game.status == 0" (click)="startGame()">start game</button>
+          
+          <!-- TODO: awarding points controls -->
+
+          <!-- Inputting Problem -->
+          <div *ngIf="getGameService().game.status == 1">
+            <form [formGroup]="questionForm" (ngSubmit)="onSubmitQuestionForm()">
+              <div>
+                <label for="question">
+                  Question
+                </label>
+                <input id="question" type="text" formControlName="question">
+              </div>
+              
+              <div>
+                <label for="answer">
+                  Answer
+                </label>
+                <input id="answer" type="text" formControlName="answer">
+              </div>
+              <button class="button" type="submit">Submit</button>
+            </form>
+          </div>
+          <!-- Waiting for Players to both answer, or time out-->
+          <div *ngIf="getGameService().game.status == 2">
+            <div>Players Are Answering...</div>
+          </div>
+          <div *ngIf="getGameService().game.status == 3">
+            <div>CHECKING ANSWERS</div>
+          </div>
+        </div>
+
+        <!-- Player View -->
+        <div *ngIf="!isMod()">
+          <div *ngIf="getGameService().game.status == 1">Waiting For Question...</div>
+          <div *ngIf="getGameService().game.status == 2">
+            <!-- answer question input. -->
+            <form [formGroup]="answerForm" (ngSubmit)="onSubmitAnswerForm()">              
+              <div>
+                <label for="answer">
+                  Answer
+                </label>
+                <input id="answer" type="text" formControlName="answer">
+              </div>
+              <button class="button" type="submit">Submit</button>
+            </form>
+          </div>
+          <div *ngIf="getGameService().game.status == 3">Checking Answers...</div>
+        </div>
       </div>
       
-      <div *ngIf="isMod()">
-        <button (click)="startGame()")></button>
-      </div>
     </div>
   </div>
 </main>

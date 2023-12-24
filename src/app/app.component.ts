@@ -4,12 +4,12 @@ import { SocketioService } from './socketio.service';
 import { BehaviorSubject } from 'rxjs';
 import { GameService } from './game.service';
 import { GameModel } from './game/game.model';
-import { UserModel } from './user/user.model';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -17,9 +17,21 @@ export class AppComponent implements OnInit {
   title = 'quiz-app';
   roomsList$ = new BehaviorSubject<GameModel[]>([]);
 
-  constructor(private socketService: SocketioService, private gameService: GameService) {
+  constructor(
+    private socketService: SocketioService, 
+    private gameService: GameService, 
+    private formBuilder: FormBuilder) {
 
   }
+
+  questionForm = this.formBuilder.group({
+    question: '',
+    answer: ''
+  });
+
+  answerForm = this.formBuilder.group({
+    answer: ''
+  });
 
   createRoom(event:any){
     console.log(event);
@@ -62,15 +74,27 @@ export class AppComponent implements OnInit {
         return "Waiting for ";
       default:
         return "No Status";
-        
     }
   }
 
   isMod(){
-    return this.gameService.user.role == "mod"
+    return this.gameService.game.moderator?.id == this.gameService.user.id;
   }
 
   startGame(){
     this.socketService.startGame(this.gameService.game.roomId);
   }
+
+  onSubmitQuestionForm(): void{
+    console.log(this.questionForm.value);
+    this.socketService.sendQuestion(this.questionForm.value);
+    this.questionForm.reset();
+  }
+
+  onSubmitAnswerForm(): void{
+    console.log(this.answerForm.value);
+    this.socketService.sendAnswer(this.answerForm.value);
+    this.answerForm.reset();
+  }
+
 }

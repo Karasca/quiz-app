@@ -24,19 +24,19 @@ export class SocketioService {
     this.socket.on('roomList', (data: GameModel[]) => {
       this.rooms$.next(data)
       console.log('roomlist: ', data);
-    })
+    });
 
     // nav to joined room
     this.socket.on('navToGameView', (data: GameModel) => {
       this.gameService.view = GameView.Game;
       console.log("navToGameView: ", data);
       this.gameService.setGame(data);
-    })
+    });
 
     // game is full
     this.socket.on('gamefull', () => {
       console.log("game full.");
-    })
+    });
 
     this.socket.on('userInfo', (user: UserModel) => {
       this.gameService.setUser(user)
@@ -48,7 +48,13 @@ export class SocketioService {
       this.gameService.game.moderator = data.moderator;
       this.gameService.game.player1 = data.player1;
       this.gameService.game.player2 = data.player2;
-    })
+    });
+
+    this.socket.on('gameUpdate', (data:GameModel) => {
+      console.log('gameUpdate ', data);
+      this.gameService.setGame(data);
+    });
+
   }
 
   // gets called when view gets destroyed
@@ -67,8 +73,6 @@ export class SocketioService {
   joinRoom(id:string){
     console.log('joining room: ', id);
     this.socket.emit('joinRoom', id);
-    // join game after receiving ok from server
-    // gameService.joinGame(this.socket.id)
   }
 
   getRooms():Observable<GameModel[]>{
@@ -85,6 +89,14 @@ export class SocketioService {
 
   getSocketId(){
     return this.socket.id;
+  }
+
+  sendQuestion(values: any){
+    this.socket.emit('question', values);
+  }
+
+  sendAnswer(values: any){
+    this.socket.emit('answer', values)
   }
 
   startGame(gameId: string){
