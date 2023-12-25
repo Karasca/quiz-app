@@ -71,7 +71,9 @@ export class AppComponent implements OnInit {
       case 2:
         return "Waiting for Answers";
       case 3:
-        return "Waiting for ";
+        return "Checking Answers";
+      case 4:
+        return "Results";
       default:
         return "No Status";
     }
@@ -97,4 +99,19 @@ export class AppComponent implements OnInit {
     this.answerForm.reset();
   }
 
+  addPointP1(){
+    this.socketService.addPointP1();
+  }
+
+  addPointP2(){
+    this.socketService.addPointP2();
+  }
+
+  nextTurn(){
+    this.socketService.nextTurn();
+  }
+
+  finishTurn(){
+    this.socketService.finishTurn();
+  }
 }

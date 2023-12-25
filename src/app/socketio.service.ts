@@ -55,6 +55,15 @@ export class SocketioService {
       this.gameService.setGame(data);
     });
 
+    this.socket.on('p1Correct', () => {
+      console.log('p1 correct');
+    });
+
+    this.socket.on('p2Correct', () => {
+      console.log('p2 correct');
+    });
+
+
   }
 
   // gets called when view gets destroyed
@@ -101,5 +110,21 @@ export class SocketioService {
 
   startGame(gameId: string){
     this.socket.emit('startGame', gameId);
+  }
+
+  addPointP1(){
+    this.socket.emit('addPointP1');
+  }
+
+  addPointP2(){
+    this.socket.emit('addPointP2');
+  }
+
+  nextTurn(){
+    this.socket.emit('nextTurn');
+  }
+
+  finishTurn(){
+    this.socket.emit('finishTurn');
   }
 }

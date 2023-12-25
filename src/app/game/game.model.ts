@@ -16,7 +16,8 @@ export enum GameStatus {
   WaitingForPlayers,
   WaitingForQuestion,
   WaitingForAnswer,
-  CheckingAnswers
+  CheckingAnswers,
+  TurnResult
 }
 
 @Component({
@@ -39,6 +40,7 @@ export class GameModel {
   roomId: string;
   p1Answer: string;
   p2Answer: string;
+
 }
 
 
