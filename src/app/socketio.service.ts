@@ -18,7 +18,7 @@ export class SocketioService {
 
   setupSocketConnection() {
     // sets up connection
-    this.socket = io("http://localhost:3000");
+    this.socket = io("http://karasca.com/");
 
     // listening to events
     this.socket.on('roomList', (data: GameModel[]) => {
@@ -112,12 +112,12 @@ export class SocketioService {
     this.socket.emit('startGame', gameId);
   }
 
-  addPointP1(){
-    this.socket.emit('addPointP1');
+  addPointP1(points:number){
+    this.socket.emit('addPointP1', points);
   }
 
-  addPointP2(){
-    this.socket.emit('addPointP2');
+  addPointP2(points:number){
+    this.socket.emit('addPointP2', points);
   }
 
   nextTurn(){

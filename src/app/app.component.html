@@ -240,11 +240,13 @@
             <div>Answer: {{getGameService().game.question.answer}}</div>
             <div>
               {{getGameService().game.player1.name}}: {{getGameService().game.p1Answer}} ({{getGameService().game.player1Score}})
-              <button (click)="addPointP1()">Correct (+1 point)</button>
+              <button (click)="addPointP1(1)">Correct (+1 point)</button>
+              <button (click)="addPointP1(-1)">Remove (-1 point)</button>
             </div>
             <div>
               {{getGameService().game.player2.name}}: {{getGameService().game.p2Answer}} ({{getGameService().game.player2Score}})
-              <button (click)="addPointP2()">Correct (+1 point)</button>
+              <button (click)="addPointP2(1)">Correct (+1 point)</button>
+              <button (click)="addPointP2(-1)">Remove (-1 point)</button>
             </div>
             <div>
               <button (click)="nextTurn()">Next Turn</button>

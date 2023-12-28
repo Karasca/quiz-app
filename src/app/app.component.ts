@@ -16,6 +16,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 export class AppComponent implements OnInit {
   title = 'quiz-app';
   roomsList$ = new BehaviorSubject<GameModel[]>([]);
+  answer = "";
 
   constructor(
     private socketService: SocketioService, 
@@ -99,12 +100,12 @@ export class AppComponent implements OnInit {
     this.answerForm.reset();
   }
 
-  addPointP1(){
-    this.socketService.addPointP1();
+  addPointP1(points: number){
+    this.socketService.addPointP1(points);
   }
 
-  addPointP2(){
-    this.socketService.addPointP2();
+  addPointP2(points: number){
+    this.socketService.addPointP2(points);
   }
 
   nextTurn(){
