@@ -5,7 +5,6 @@ import { GameService, GameView } from './game.service';
 import { GameModel } from './game/game.model';
 import { UserModel } from './user/user.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +17,7 @@ export class SocketioService {
 
   setupSocketConnection() {
     // sets up connection
+    //this.socket = io("http://localhost:3000");
     this.socket = io("https://karasca.com/");
 
     // listening to events

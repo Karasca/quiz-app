@@ -115,4 +115,15 @@ export class AppComponent implements OnInit {
   finishTurn(){
     this.socketService.finishTurn();
   }
+
+  getPlayerCount(room: GameModel){
+    let count = 0;
+    if(room.player1){
+      count += 1;
+    }
+    if(room.player2){
+      count += 1;
+    }
+    return count;
+  }
 }
