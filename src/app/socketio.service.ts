@@ -63,7 +63,9 @@ export class SocketioService {
       console.log('p2 correct');
     });
 
-
+    this.socket.on('resetAnswer', () => {
+      this.gameService.setAnswer("");
+    })
   }
 
   // gets called when view gets destroyed

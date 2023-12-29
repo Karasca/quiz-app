@@ -97,6 +97,7 @@ export class AppComponent implements OnInit {
   onSubmitAnswerForm(): void{
     console.log(this.answerForm.value);
     this.socketService.sendAnswer(this.answerForm.value);
+    this.gameService.setAnswer(this.answerForm.value.answer as string);
     this.answerForm.reset();
   }
 
@@ -125,5 +126,21 @@ export class AppComponent implements OnInit {
       count += 1;
     }
     return count;
+  }
+
+  currentAnswer(){
+    if(this.gameService.currentAnswer.length > 0){
+      return this.gameService.currentAnswer;
+    }else{
+      return 'No Answer';
+    }
+  }
+  
+  answerButtonText(){
+    if(this.gameService.currentAnswer.length > 0){
+      return 'Change Answer';
+    }else{
+      return 'Submit Answer';
+    }
   }
 }

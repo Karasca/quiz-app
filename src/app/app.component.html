@@ -206,8 +206,6 @@
         <!-- Mod View -->
         <div *ngIf="isMod()">
           <button *ngIf="getGameService().game.status == 0" (click)="startGame()">start game</button>
-          
-          <!-- TODO: awarding points controls -->
 
           <!-- Inputting Problem -->
           <div *ngIf="getGameService().game.status == 1">
@@ -216,14 +214,14 @@
                 <label for="question">
                   Question
                 </label>
-                <input id="question" type="text" formControlName="question">
+                <input autocomplete="off" id="question" type="text" formControlName="question">
               </div>
               
               <div>
                 <label for="answer">
                   Answer
                 </label>
-                <input id="answer" type="text" formControlName="answer">
+                <input autocomplete="off" id="answer" type="text" formControlName="answer">
               </div>
               <button class="button" type="submit">Submit</button>
             </form>
@@ -273,16 +271,17 @@
                 <label for="answer">
                   Answer
                 </label>
-                <input id="answer" type="text" formControlName="answer">
+                <input autocomplete="off" id="answer" type="text" formControlName="answer">
+                <div>Your Answer: {{currentAnswer()}}</div>
               </div>
-              <button class="button" type="submit">Submit</button>
+              <button class="button" type="submit">{{answerButtonText()}}</button>
             </form>
           </div>
           <div *ngIf="getGameService().game.status == 3">Checking Answers...</div>
           <div *ngIf="getGameService().game.status == 4">
-            <div>Result</div>
-            <div>{{getGameService().game.player1.name}}: {{getGameService().game.player1Score}}</div>
-            <div>{{getGameService().game.player2.name}}: {{getGameService().game.player2Score}}</div>
+            <div><b>>Result</b></div>
+            <div>{{getGameService().game.player1.name}}: {{getGameService().game.player1Score}} "{{getGameService().game.p1Answer}}"</div>
+            <div>{{getGameService().game.player2.name}}: {{getGameService().game.player2Score}} "{{getGameService().game.p2Answer}}"</div>
           </div>
         </div>
       </div>

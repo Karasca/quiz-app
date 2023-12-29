@@ -16,6 +16,7 @@ export class GameService {
   view = GameView.Lobby;
   game = new GameModel;
   user = new UserModel;
+  currentAnswer = "";
 
   constructor(){
 
@@ -60,5 +61,9 @@ export class GameService {
     this.user.id = user.id;
     this.user.name = user.name;
     this.user.role = user.role;
+  }
+
+  setAnswer(answer:string){
+    this.currentAnswer = answer;
   }
 }
