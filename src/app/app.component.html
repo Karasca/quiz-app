@@ -253,7 +253,9 @@
             </div>
           </div>
           <div *ngIf="getGameService().game.status == 4">
-            <div>Result</div>
+            <div><b>>Result</b></div>
+            <div>Question: {{getGameService().game.question.question}}</div>
+            <div>Answer: {{getGameService().game.question.answer}}</div>
             <div>{{getGameService().game.player1.name}}: {{getGameService().game.player1Score}} "{{getGameService().game.p1Answer}}"</div>
             <div>{{getGameService().game.player2.name}}: {{getGameService().game.player2Score}} "{{getGameService().game.p2Answer}}"</div>
             <div><button (click)="finishTurn()">Next Question</button></div>
