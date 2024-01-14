@@ -154,6 +154,6 @@ export class AppComponent implements OnInit {
   }
 
   getImage(imageName: string) {
-    return `http://localhost:3000/images/${imageName}`
+    return `https://karasca.com/images/${imageName}`
   }
 }
