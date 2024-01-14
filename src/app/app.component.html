@@ -178,6 +178,29 @@
   #playersCount{
     margin: 0px 5px 0px 50px;
   }
+
+  .row {
+    width: 100vw;
+  }
+  
+  .column {
+    display: flex;
+    float: left;
+    width: 33.33%;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .characterImage {
+    height: 500px;
+  }
 </style>
 
 <main class="main">
@@ -196,94 +219,127 @@
         </div>
       </div>
       
-      <div *ngIf="getGameService().view === 1">
+      <div class="gameview" *ngIf="getGameService().view === 1">
         <h1>{{printStatus()}}</h1>
         <!-- General View -->
-        <div *ngIf="getGameService().game.moderator">Moderator: {{getGameService().game.moderator.name || 'None'}}</div>
-        <div *ngIf="getGameService().game.player1">Player 1: {{getGameService().game.player1.name || 'None'}}</div>
-        <div *ngIf="getGameService().game.player2">Player 2: {{getGameService().game.player2.name || 'None'}}</div>
+        <div class="row">
+          <div class="column" *ngIf="getGameService().game.player1">
+            <div>Player 1: {{getGameService().game.player1.name || 'None'}}</div>
+            <img class="characterImage" [src]="getImage(getGameService().game.player1.img)">
+            <div *ngIf="isPlayer1()">
+              <div *ngIf="getGameService().game.status == 1">Waiting For Question...</div>
+              <div *ngIf="getGameService().game.status == 2">
+                <div>Question: {{getGameService().game.question.question}}</div>
+                <form [formGroup]="answerForm" (ngSubmit)="onSubmitAnswerForm()">              
+                  <div>
+                    <label for="answer">
+                      Answer
+                    </label>
+                    <input autocomplete="off" id="answer" type="text" formControlName="answer">
+                    <div>Your Answer: {{currentAnswer()}}</div>
+                  </div>
+                  <button class="button" type="submit">{{answerButtonText()}}</button>
+                </form>
+              </div>
+              <div *ngIf="getGameService().game.status == 3">Checking Answers...</div>
+              <div *ngIf="getGameService().game.status == 4">
+                <div><b>>Result</b></div>
+                <div>{{getGameService().game.player1.name}}: {{getGameService().game.player1Score}} "{{getGameService().game.p1Answer}}"</div>
+                <div>{{getGameService().game.player2.name}}: {{getGameService().game.player2Score}} "{{getGameService().game.p2Answer}}"</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="column" *ngIf="getGameService().game.moderator">
+            <div>Moderator: {{getGameService().game.moderator.name || 'None'}}</div>
+            <br/>
+            <img class="characterImage" [src]="getImage(getGameService().game.moderator.img)">
+            <br/>
+            <div *ngIf="isMod()">
+              <button *ngIf="getGameService().game.status == 0" (click)="startGame()">start game</button>
+    
+              <!-- Inputting Problem -->
+              <div *ngIf="getGameService().game.status == 1">
+                <form [formGroup]="questionForm" (ngSubmit)="onSubmitQuestionForm()">
+                  <div>
+                    <label for="question">
+                      Question
+                    </label>
+                    <input autocomplete="off" id="question" type="text" formControlName="question">
+                  </div>
+                  
+                  <div>
+                    <label for="answer">
+                      Answer
+                    </label>
+                    <input autocomplete="off" id="answer" type="text" formControlName="answer">
+                  </div>
+                  <button class="button" type="submit">Submit</button>
+                </form>
+              </div>
+              <!-- Waiting for Players to both answer, or time out-->
+              <div *ngIf="getGameService().game.status == 2">
+                <div>Players Are Answering...</div>
+                <div>Question: {{getGameService().game.question.question}}</div>
+              </div>
+              <!-- Checking Answers -->
+              <div *ngIf="getGameService().game.status == 3">
+                <div>CHECKING ANSWERS</div>
+                <div>Question: {{getGameService().game.question.question}}</div>
+                <div>Answer: {{getGameService().game.question.answer}}</div>
+                <div>
+                  {{getGameService().game.player1.name}}: {{getGameService().game.p1Answer}} ({{getGameService().game.player1Score}})
+                  <button (click)="addPointP1(1)">Correct (+1 point)</button>
+                  <button (click)="addPointP1(-1)">Remove (-1 point)</button>
+                </div>
+                <div>
+                  {{getGameService().game.player2.name}}: {{getGameService().game.p2Answer}} ({{getGameService().game.player2Score}})
+                  <button (click)="addPointP2(1)">Correct (+1 point)</button>
+                  <button (click)="addPointP2(-1)">Remove (-1 point)</button>
+                </div>
+                <div>
+                  <button (click)="nextTurn()">Next Turn</button>
+                </div>
+              </div>
+              <div *ngIf="getGameService().game.status == 4">
+                <div><b>>Result</b></div>
+                <div>Question: {{getGameService().game.question.question}}</div>
+                <div>Answer: {{getGameService().game.question.answer}}</div>
+                <div>{{getGameService().game.player1.name}}: {{getGameService().game.player1Score}} "{{getGameService().game.p1Answer}}"</div>
+                <div>{{getGameService().game.player2.name}}: {{getGameService().game.player2Score}} "{{getGameService().game.p2Answer}}"</div>
+                <div><button (click)="finishTurn()">Next Question</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="column" *ngIf="getGameService().game.player2">
+            <div>Player 2: {{getGameService().game.player2.name || 'None'}}</div>
+            <img class="characterImage" [src]="getImage(getGameService().game.player2.img)">
+            <div *ngIf="isPlayer2()">
+              <div *ngIf="getGameService().game.status == 1">Waiting For Question...</div>
+              <div *ngIf="getGameService().game.status == 2">
+                <div>Question: {{getGameService().game.question.question}}</div>
+                <form [formGroup]="answerForm" (ngSubmit)="onSubmitAnswerForm()">              
+                  <div>
+                    <label for="answer">
+                      Answer
+                    </label>
+                    <input autocomplete="off" id="answer" type="text" formControlName="answer">
+                    <div>Your Answer: {{currentAnswer()}}</div>
+                  </div>
+                  <button class="button" type="submit">{{answerButtonText()}}</button>
+                </form>
+              </div>
+              <div *ngIf="getGameService().game.status == 3">Checking Answers...</div>
+              <div *ngIf="getGameService().game.status == 4">
+                <div><b>>Result</b></div>
+                <div>{{getGameService().game.player1.name}}: {{getGameService().game.player1Score}} "{{getGameService().game.p1Answer}}"</div>
+                <div>{{getGameService().game.player2.name}}: {{getGameService().game.player2Score}} "{{getGameService().game.p2Answer}}"</div>
+              </div>
+            </div>
+          </div>
+        </div>
         
-        <!-- Mod View -->
-        <div *ngIf="isMod()">
-          <button *ngIf="getGameService().game.status == 0" (click)="startGame()">start game</button>
-
-          <!-- Inputting Problem -->
-          <div *ngIf="getGameService().game.status == 1">
-            <form [formGroup]="questionForm" (ngSubmit)="onSubmitQuestionForm()">
-              <div>
-                <label for="question">
-                  Question
-                </label>
-                <input autocomplete="off" id="question" type="text" formControlName="question">
-              </div>
-              
-              <div>
-                <label for="answer">
-                  Answer
-                </label>
-                <input autocomplete="off" id="answer" type="text" formControlName="answer">
-              </div>
-              <button class="button" type="submit">Submit</button>
-            </form>
-          </div>
-          <!-- Waiting for Players to both answer, or time out-->
-          <div *ngIf="getGameService().game.status == 2">
-            <div>Players Are Answering...</div>
-            <div>Question: {{getGameService().game.question.question}}</div>
-          </div>
-          <!-- Checking Answers -->
-          <div *ngIf="getGameService().game.status == 3">
-            <div>CHECKING ANSWERS</div>
-            <div>Question: {{getGameService().game.question.question}}</div>
-            <div>Answer: {{getGameService().game.question.answer}}</div>
-            <div>
-              {{getGameService().game.player1.name}}: {{getGameService().game.p1Answer}} ({{getGameService().game.player1Score}})
-              <button (click)="addPointP1(1)">Correct (+1 point)</button>
-              <button (click)="addPointP1(-1)">Remove (-1 point)</button>
-            </div>
-            <div>
-              {{getGameService().game.player2.name}}: {{getGameService().game.p2Answer}} ({{getGameService().game.player2Score}})
-              <button (click)="addPointP2(1)">Correct (+1 point)</button>
-              <button (click)="addPointP2(-1)">Remove (-1 point)</button>
-            </div>
-            <div>
-              <button (click)="nextTurn()">Next Turn</button>
-            </div>
-          </div>
-          <div *ngIf="getGameService().game.status == 4">
-            <div><b>>Result</b></div>
-            <div>Question: {{getGameService().game.question.question}}</div>
-            <div>Answer: {{getGameService().game.question.answer}}</div>
-            <div>{{getGameService().game.player1.name}}: {{getGameService().game.player1Score}} "{{getGameService().game.p1Answer}}"</div>
-            <div>{{getGameService().game.player2.name}}: {{getGameService().game.player2Score}} "{{getGameService().game.p2Answer}}"</div>
-            <div><button (click)="finishTurn()">Next Question</button></div>
-          </div>
-        </div>
-
-        <!-- Player View -->
-        <div *ngIf="!isMod()">
-          <div *ngIf="getGameService().game.status == 1">Waiting For Question...</div>
-          <div *ngIf="getGameService().game.status == 2">
-            <div>Question: {{getGameService().game.question.question}}</div>
-            <!-- answer question input. -->
-            <form [formGroup]="answerForm" (ngSubmit)="onSubmitAnswerForm()">              
-              <div>
-                <label for="answer">
-                  Answer
-                </label>
-                <input autocomplete="off" id="answer" type="text" formControlName="answer">
-                <div>Your Answer: {{currentAnswer()}}</div>
-              </div>
-              <button class="button" type="submit">{{answerButtonText()}}</button>
-            </form>
-          </div>
-          <div *ngIf="getGameService().game.status == 3">Checking Answers...</div>
-          <div *ngIf="getGameService().game.status == 4">
-            <div><b>>Result</b></div>
-            <div>{{getGameService().game.player1.name}}: {{getGameService().game.player1Score}} "{{getGameService().game.p1Answer}}"</div>
-            <div>{{getGameService().game.player2.name}}: {{getGameService().game.player2Score}} "{{getGameService().game.p2Answer}}"</div>
-          </div>
-        </div>
       </div>
       
     </div>

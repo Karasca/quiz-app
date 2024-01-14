@@ -10,4 +10,5 @@ import { Component } from '@angular/core';
 export class PlayerModel {
   id: string;
   name: string;
+  img: string;
 }

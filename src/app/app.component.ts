@@ -14,6 +14,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+
   title = 'quiz-app';
   roomsList$ = new BehaviorSubject<GameModel[]>([]);
   answer = "";
@@ -84,6 +85,14 @@ export class AppComponent implements OnInit {
     return this.gameService.game.moderator?.id == this.gameService.user.id;
   }
 
+  isPlayer1(){
+    return this.gameService.game.player1?.id == this.gameService.user.id;
+  }
+
+  isPlayer2(){
+    return this.gameService.game.player2?.id == this.gameService.user.id;
+  }
+
   startGame(){
     this.socketService.startGame(this.gameService.game.roomId);
   }
@@ -142,5 +151,9 @@ export class AppComponent implements OnInit {
     }else{
       return 'Submit Answer';
     }
+  }
+
+  getImage(imageName: string) {
+    return `http://localhost:3000/images/${imageName}`
   }
 }
