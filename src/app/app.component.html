@@ -278,7 +278,7 @@
         <div class="row">
           <div class="column" *ngIf="getGameService().game.player1">
             <div class="number">Score: {{getGameService().game.player1Score}}</div>
-            <div *ngIf="getGameService().game.status == 4" class="speechBubble">
+            <div *ngIf="getGameService().game.status >= 4" class="speechBubble">
               <div>"{{getGameService().game.p1Answer}}"</div>
             </div>
             <div class="playerContainer">
@@ -301,7 +301,7 @@
                     </form>
                   </div>
                   <div *ngIf="getGameService().game.status == 3">Checking Answers...</div>
-                  <div *ngIf="getGameService().game.status == 4">
+                  <div *ngIf="getGameService().game.status >= 4">
                     <div><b>>Result</b></div>
                     <div>{{getGameService().game.player1.name}}: {{getGameService().game.player1Score}} "{{getGameService().game.p1Answer}}"</div>
                     <div>{{getGameService().game.player2.name}}: {{getGameService().game.player2Score}} "{{getGameService().game.p2Answer}}"</div>
@@ -313,7 +313,7 @@
 
           <div class="column" *ngIf="getGameService().game.moderator">
             <div class="number" id="timer">{{getGameService().game.timer}}</div>
-            <div *ngIf="getGameService().game.status == 4"  class="speechBubble">
+            <div *ngIf="getGameService().game.status >= 4"  class="speechBubble">
               <div>
                   "{{getGameService().game.question.question}}"
                   "{{getGameService().game.question.answer}}"
@@ -370,7 +370,7 @@
                       <button (click)="nextTurn()">Next Turn</button>
                     </div>
                   </div>
-                  <div *ngIf="getGameService().game.status == 4">
+                  <div *ngIf="getGameService().game.status >= 4">
                     <div><button (click)="finishTurn()">Next Question</button></div>
                   </div>
                 </div>
@@ -380,7 +380,7 @@
 
           <div class="column" *ngIf="getGameService().game.player2">
             <div class="number">Score: {{getGameService().game.player2Score}}</div>
-            <div *ngIf="getGameService().game.status == 4" class="speechBubble">
+            <div *ngIf="getGameService().game.status >= 4" class="speechBubble">
               <div>"{{getGameService().game.p2Answer}}"</div>
             </div>
             <div class="playerContainer">

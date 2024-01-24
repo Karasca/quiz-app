@@ -17,7 +17,10 @@ export enum GameStatus {
   WaitingForQuestion,
   WaitingForAnswer,
   CheckingAnswers,
-  TurnResult
+  P1CorrectResult,
+  P2CorrectResult,
+  BothCorrectResult,
+  BothWrongResult
 }
 
 @Component({

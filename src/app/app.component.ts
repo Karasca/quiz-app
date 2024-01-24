@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SocketioService } from './socketio.service';
 import { BehaviorSubject } from 'rxjs';
 import { GameService } from './game.service';
-import { GameModel } from './game/game.model';
+import { GameModel, GameStatus } from './game/game.model';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -154,15 +154,48 @@ export class AppComponent implements OnInit {
   }
 
   getP1Image(){
-    return 'assets/images/quizshow_mokou1_idle.png';
+    let status = this.gameService.game.status
+
+    if(status === GameStatus.WaitingForAnswer){
+      return 'assets/images/quizshow_mokou1_idle2.png';
+    }else if(status === GameStatus.P1CorrectResult || status === GameStatus.BothCorrectResult){
+      return 'assets/images/quizshow_mokou2_correct.png';
+    }else if(status === GameStatus.P2CorrectResult || status === GameStatus.BothWrongResult){
+      return 'assets/images/quizshow_mokou3_incorrect.png';
+    }else{
+      return 'assets/images/quizshow_mokou1_idle.png';
+    }
   }
 
   getP2Image(){
-    return 'assets/images/quizshow_akyuu1_idle.png';
+    let status = this.gameService.game.status
+
+    if(status === GameStatus.WaitingForAnswer){
+      return 'assets/images/quizshow_akyuu1_idle2.png';
+    }else if(status === GameStatus.P2CorrectResult || status === GameStatus.BothCorrectResult){
+      return 'assets/images/quizshow_akyuu2_correct.png';
+    }else if(status === GameStatus.P1CorrectResult || status === GameStatus.BothWrongResult){
+      return 'assets/images/quizshow_akyuu3_incorrect.png';
+    }else{
+      return 'assets/images/quizshow_akyuu1_idle.png';
+    }
   }
 
   getJudgeImage(){
-    return 'assets/images/quizshow_cirno1_idle.png';
+    let status = this.gameService.game.status
+
+    if(status === GameStatus.WaitingForAnswer){
+      return 'assets/images/quizshow_cirno1_idle.png';
+    }else if(status === GameStatus.P2CorrectResult){
+      return 'assets/images/quizshow_cirno3_right.png';
+    }else if(status === GameStatus.BothCorrectResult || status === GameStatus.BothWrongResult){
+      return 'assets/images/quizshow_cirno1_idle.png';
+    }else if(status === GameStatus.P1CorrectResult){
+      return 'assets/images/quizshow_cirno2_left.png';
+    }else{
+      return 'assets/images/quizshow_cirno1_idle.png';
+    }
+    
   }
 
   getImage(imageName: string) {
