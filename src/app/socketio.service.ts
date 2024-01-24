@@ -66,6 +66,10 @@ export class SocketioService {
     this.socket.on('resetAnswer', () => {
       this.gameService.setAnswer("");
     })
+
+    this.socket.on('timer', (data:number) => {
+      this.gameService.setTimer(data);
+    })
   }
 
   // gets called when view gets destroyed

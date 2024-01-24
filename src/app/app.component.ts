@@ -153,7 +153,61 @@ export class AppComponent implements OnInit {
     }
   }
 
+  getP1Image(){
+    return 'assets/images/quizshow_mokou1_idle.png';
+  }
+
+  getP2Image(){
+    return 'assets/images/quizshow_akyuu1_idle.png';
+  }
+
+  getJudgeImage(){
+    return 'assets/images/quizshow_cirno1_idle.png';
+  }
+
   getImage(imageName: string) {
-    return `https://karasca.com/images/${imageName}`
+    return `https://karasca.com/images/${imageName}`;
+  }
+
+  getP1Rgb(){
+    return {backgroundColor: `rgb(${this.brighten(this.gameService.game.player1.color[this.getRandomInt(6)]).toString()})`};
+  }
+
+  getP2Rgb(){
+    return {backgroundColor: `rgb(${this.brighten(this.gameService.game.player2.color[this.getRandomInt(6)]).toString()})`};
+  }
+
+  getModRgb(){
+    return {backgroundColor: `rgb(${this.brighten(this.gameService.game.moderator.color[this.getRandomInt(6)]).toString()})`};
+  }
+
+  averageColor(paletteArr:Array<number[]>){
+    let resultArr = [0, 0, 0];
+
+    paletteArr.forEach(rgbArr => {
+      console.log('paletteArr: ', paletteArr);
+      resultArr[0] += rgbArr[0];
+      resultArr[1] += rgbArr[1];
+      resultArr[2] += rgbArr[2];
+    });
+
+    resultArr.forEach((colorVal, index) => {
+      resultArr[index] = colorVal / 8;
+    });
+    console.log(resultArr);
+    return resultArr;
+  }
+
+  brighten(rgbArr:Array<number>){
+    let rArr = new Array<number>;
+    rArr[0] = Math.min(200, rgbArr[0]*1.25);
+    rArr[1] = Math.min(200, rgbArr[1]*1.25);
+    rArr[2] = Math.min(200, rgbArr[2]*1.25);
+
+    return rArr;
+  }
+
+  getRandomInt(max:number) {
+    return Math.floor(Math.random() * max);
   }
 }

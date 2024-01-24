@@ -11,4 +11,5 @@ export class PlayerModel {
   id: string;
   name: string;
   img: string;
+  color: [] = [];
 }

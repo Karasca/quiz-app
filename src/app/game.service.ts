@@ -17,6 +17,7 @@ export class GameService {
   game = new GameModel;
   user = new UserModel;
   currentAnswer = "";
+  mode = "asprey-GC";
 
   constructor(){
 
@@ -66,4 +67,9 @@ export class GameService {
   setAnswer(answer:string){
     this.currentAnswer = answer;
   }
+
+  setTimer(timer:number){
+    this.game.timer = timer;
+  }
+
 }
