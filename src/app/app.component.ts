@@ -156,7 +156,7 @@ export class AppComponent implements OnInit {
   getP1Image(){
     let status = this.gameService.game.status
 
-    if(status === GameStatus.WaitingForAnswer){
+    if(status === GameStatus.CheckingAnswers){
       return 'assets/images/quizshow_mokou1_idle2.png';
     }else if(status === GameStatus.P1CorrectResult || status === GameStatus.BothCorrectResult){
       return 'assets/images/quizshow_mokou2_correct.png';
@@ -170,7 +170,7 @@ export class AppComponent implements OnInit {
   getP2Image(){
     let status = this.gameService.game.status
 
-    if(status === GameStatus.WaitingForAnswer){
+    if(status === GameStatus.CheckingAnswers){
       return 'assets/images/quizshow_akyuu1_idle2.png';
     }else if(status === GameStatus.P2CorrectResult || status === GameStatus.BothCorrectResult){
       return 'assets/images/quizshow_akyuu2_correct.png';

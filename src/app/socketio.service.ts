@@ -17,8 +17,8 @@ export class SocketioService {
 
   setupSocketConnection() {
     // sets up connection
-    this.socket = io("http://localhost:3000");
-    //this.socket = io("https://karasca.com/");
+    //this.socket = io("http://localhost:3000");
+    this.socket = io("https://karasca.com/");
 
     // listening to events
     this.socket.on('roomList', (data: GameModel[]) => {
